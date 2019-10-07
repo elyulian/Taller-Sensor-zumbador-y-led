@@ -1,0 +1,52 @@
+const int TRIGG = PA2;
+const int ECHO = PA1;
+const int LED = PA4;
+void setup() {
+  // put your setup code here, to run once:
+ Serial.begin(9600);
+  pinMode(TRIGG,OUTPUT); 
+  pinMode(ECHO,INPUT);  
+  pinMode(LED, OUTPUT);
+  digitalWrite(TRIGG,1);
+}
+
+
+
+void loop() {
+ int contador; 
+ int  tiempo; 
+ int  distancia; 
+ int total;
+ 
+  digitalWrite(TRIGG, 1);//prende
+  delayMicroseconds(10);       //espera
+  digitalWrite(TRIGG, 0);//apaga
+  
+  tiempo = pulseIn(ECHO,1); 
+  distancia = tiempo/59; 
+
+  if(distancia >0 && distancia <=40){
+    Serial.print("Se subio un pasajero");
+    contador++;
+    }else{
+        Serial.print("No ha subido nadie");
+        contador=0;
+           }
+  total = calculaTotal(contador); 
+  
+  Serial.print("CANTIDAD DE PASAJEROS "+contador);
+  Serial.print("TOTAL MONTO PASAJES"+total);
+  delay(100);
+
+}
+
+int calculaTotal(int contador){
+  int valor;
+if(contador==0){
+  return 0;
+  }else{
+  valor = contador*5400;
+  
+  return valor;
+  }
+  }
