@@ -1,0 +1,99 @@
+const int TRIGG = PA2;
+const int ECHO = PA1;
+const int LED = PA4;
+const int MOTOR1A= PB4;
+const int MOTOR1B= PB5;
+const int MOTOR2A= PB6;
+const int MOTOR2B= PB7;
+
+void setup() {
+  // put your setup code here, to run once:
+ Serial.begin(9600);
+  pinMode(TRIGG,OUTPUT); 
+  pinMode(ECHO,INPUT);  
+  pinMode(LED, OUTPUT);
+  pinMode(MOTOR1A,OUTPUT);
+  pinMode(MOTOR1B,OUTPUT);
+  pinMode(MOTOR2A,OUTPUT);
+  pinMode(MOTOR2B,OUTPUT);
+  
+  digitalWrite(TRIGG,1);
+  digitalWrite(MOTOR1A,0);
+  digitalWrite(MOTOR1B,0);
+  digitalWrite(MOTOR2A,0);
+  digitalWrite(MOTOR2B,0);
+  
+}
+
+
+
+void loop() {
+ 
+ int  tiempo; 
+ int  distancia; 
+ 
+  digitalWrite(TRIGG, 1);//prende
+  delayMicroseconds(10);       //espera
+  digitalWrite(TRIGG, 0);//apaga
+  
+  tiempo = pulseIn(ECHO,1); 
+  distancia = tiempo/59; 
+  adelante();
+  delay(500);
+  if(distancia >0 && distancia <=20){
+    Serial.println("HAY UN OBJETO CERCA");
+    atras();
+    delay(500);
+    derecha();
+    delay(500);
+    adelante();
+    }else{
+          if(distancia >20 && distancia <=49 ){
+            Serial.println("HAY UN OBJETO A UNA DISTANCIA CONSIDERABLE");
+            atras();
+            delay(1001);
+            izquierda();
+            delay(1001);
+            adelante();
+                }else{
+                  
+                  Serial.print("NO HAY OBJETO SIGA AVANZANDO");
+                  }
+       
+           }
+  
+}
+void adelante(){
+  
+  digitalWrite(MOTOR1A,1);
+  digitalWrite(MOTOR1B,0);
+  digitalWrite(MOTOR2A,1);
+  digitalWrite(MOTOR2B,0);
+  
+  }
+  void atras(){
+  
+  digitalWrite(MOTOR1A,0);
+  digitalWrite(MOTOR1B,1);
+  digitalWrite(MOTOR2A,0);
+  digitalWrite(MOTOR2B,1);
+  }
+
+  void derecha(){
+  
+  digitalWrite(MOTOR1A,0);
+  digitalWrite(MOTOR1B,1);
+  digitalWrite(MOTOR2A,1);
+  digitalWrite(MOTOR2B,0);
+  
+  }
+  void izquierda(){
+  
+  digitalWrite(MOTOR1A,1);
+  digitalWrite(MOTOR1B,0);
+  digitalWrite(MOTOR2A,0);
+  digitalWrite(MOTOR2B,1);
+  
+  }
+  
+  
